@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ExamenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="catedratico">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" />
+          <Property Name="APELLIDOS" Type="varchar" MaxLength="50" />
+          <Property Name="DPI" Type="varchar" MaxLength="50" />
+          <Property Name="ACTIVO" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CURSO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_CATEDRATICO" Type="int" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" />
+          <Property Name="APROVADO" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_CURSO_catedratico">
+          <End Role="catedratico" Type="Self.catedratico" Multiplicity="0..1" />
+          <End Role="CURSO" Type="Self.CURSO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catedratico">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CURSO">
+              <PropertyRef Name="ID_CATEDRATICO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="P_CATEDRATICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="NOMBRE" Type="varchar" Mode="In" />
+          <Parameter Name="APELLIDOS" Type="varchar" Mode="In" />
+          <Parameter Name="DPI" Type="varchar" Mode="In" />
+          <Parameter Name="ACTIVO" Type="varchar" Mode="In" />
+          <Parameter Name="OPTIONS" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="P_CURSO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="ID_CATEDRATICO" Type="int" Mode="In" />
+          <Parameter Name="NOMBRE" Type="varchar" Mode="In" />
+          <Parameter Name="APROVADO" Type="varchar" Mode="In" />
+          <Parameter Name="OPTIONS" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="ExamenModelStoreContainer">
+          <EntitySet Name="catedratico" EntityType="Self.catedratico" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CURSO" EntityType="Self.CURSO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CURSO_catedratico" Association="Self.FK_CURSO_catedratico">
+            <End Role="catedratico" EntitySet="catedratico" />
+            <End Role="CURSO" EntitySet="CURSO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExamenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="catedratico">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDOS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DPI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIVO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CURSO" Relationship="Self.FK_CURSO_catedratico" FromRole="catedratico" ToRole="CURSO" />
+        </EntityType>
+        <EntityType Name="CURSO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_CATEDRATICO" Type="Int32" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="APROVADO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="catedratico" Relationship="Self.FK_CURSO_catedratico" FromRole="CURSO" ToRole="catedratico" />
+        </EntityType>
+        <Association Name="FK_CURSO_catedratico">
+          <End Role="catedratico" Type="Self.catedratico" Multiplicity="0..1" />
+          <End Role="CURSO" Type="Self.CURSO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catedratico">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CURSO">
+              <PropertyRef Name="ID_CATEDRATICO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamenEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="catedratico" EntityType="Self.catedratico" />
+          <EntitySet Name="CURSO" EntityType="Self.CURSO" />
+          <AssociationSet Name="FK_CURSO_catedratico" Association="Self.FK_CURSO_catedratico">
+            <End Role="catedratico" EntitySet="catedratico" />
+            <End Role="CURSO" EntitySet="CURSO" />
+          </AssociationSet>
+          <FunctionImport Name="P_CATEDRATICO" ReturnType="Collection(ExamenModel.P_CATEDRATICO_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="NOMBRE" Mode="In" Type="String" />
+            <Parameter Name="APELLIDOS" Mode="In" Type="String" />
+            <Parameter Name="DPI" Mode="In" Type="String" />
+            <Parameter Name="ACTIVO" Mode="In" Type="String" />
+            <Parameter Name="OPTIONS" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="P_CURSO" ReturnType="Collection(ExamenModel.P_CURSO_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="ID_CATEDRATICO" Mode="In" Type="Int32" />
+            <Parameter Name="NOMBRE" Mode="In" Type="String" />
+            <Parameter Name="APROVADO" Mode="In" Type="String" />
+            <Parameter Name="OPTIONS" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="P_CATEDRATICO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOMBRE" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="APELLIDOS" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DPI" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ACTIVO" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="P_CURSO_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="ID_CATEDRATICO" Nullable="true" />
+          <Property Type="String" Name="NOMBRE" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="APROVADO" Nullable="true" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExamenModelStoreContainer" CdmEntityContainer="ExamenEntities">
+          <EntitySetMapping Name="catedratico">
+            <EntityTypeMapping TypeName="ExamenModel.catedratico">
+              <MappingFragment StoreEntitySet="catedratico">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="DPI" ColumnName="DPI" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CURSO">
+            <EntityTypeMapping TypeName="ExamenModel.CURSO">
+              <MappingFragment StoreEntitySet="CURSO">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_CATEDRATICO" ColumnName="ID_CATEDRATICO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APROVADO" ColumnName="APROVADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="P_CATEDRATICO" FunctionName="ExamenModel.Store.P_CATEDRATICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamenModel.P_CATEDRATICO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="DPI" ColumnName="DPI" />
+                <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="P_CURSO" FunctionName="ExamenModel.Store.P_CURSO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamenModel.P_CURSO_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_CATEDRATICO" ColumnName="ID_CATEDRATICO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APROVADO" ColumnName="APROVADO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
